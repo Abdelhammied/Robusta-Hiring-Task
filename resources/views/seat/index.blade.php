@@ -20,12 +20,25 @@
                             </p>
                         </div>
                         <div class="col-md-4">
+                            @if ($seat->reserved_from == 'specific_station')
+                            <p>
+                                from: <strong>{{ $seat->checkInAt->name }}</strong>
+                            </p>
+                            @else
                             <p>
                                 from: <strong>{{ $seat->trip->from->name }}</strong>
                             </p>
+                            @endif
+
+                            @if ($seat->reserved_to == 'specific_station')
+                            <p>
+                                to: <strong>{{ $seat->checkOutAt->name }}</strong>
+                            </p>
+                            @else
                             <p>
                                 to: <strong>{{ $seat->trip->to->name }}</strong>
                             </p>
+                            @endif
                         </div>
                         <div class="col-12">
                             <hr>

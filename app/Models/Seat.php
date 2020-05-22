@@ -40,6 +40,16 @@ class Seat extends Model
         return $query->where('status', 'reserved');
     }
 
+    public function checkInAt()
+    {
+        return $this->belongsTo(Station::class, 'check_in_at');
+    }
+
+    public function checkOutAt()
+    {
+        return $this->belongsTo(Station::class, 'check_out_at');
+    }
+
     public function setStatusToFree()
     {
         return $this->update([
