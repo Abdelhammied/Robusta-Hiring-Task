@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Station;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test', function(){
+    return Station::get()->random('id');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('search', 'SearchController@search')->name('search');
