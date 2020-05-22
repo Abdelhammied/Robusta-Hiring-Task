@@ -13,42 +13,11 @@
                         second(s)
                     </p>
 
-                    @push('js')
-                    <script>
-                        let timer = document.getElementById('time');
-
-                        if (localStorage.getItem('time')) {
-                            document.getElementById('time').innerText = localStorage.getItem('time')
-                        }
-                        
-                        setInterval(function(){
-                            let time = timer.innerText - 1;
-                           
-                            timer.innerText = time ;
-                            
-                            localStorage.setItem('time', time)
-                            
-                            if (timer.innerText == 0) {
-                                localStorage.removeItem('time')
-                                
-                                window.location.href = "{{ route('home') }}";
-                            }
-                        }, 1000)
-                    </script>
-                    @endpush
-
                     <form action="{{ route('confirm-reserve-seat', $seat->seat_uuid) }}" method="POST">
 
                         @csrf
 
-                        <div class="form-group">
-                            <label for="agree">
-                                <input type="checkbox" name="" id="agree">
-                                i agree the terms of conditions
-                            </label>
-                        </div>
-
-                        <button class="btn btn-primary">Reserve</button>
+                        <button class="btn btn-primary" type="submit">Reserve</button>
                     </form>
 
                 </div>
@@ -57,4 +26,27 @@
     </div>
 </div>
 
+@push('js')
+<script>
+    let timer = document.getElementById('time');
+
+    if (localStorage.getItem('time')) {
+        document.getElementById('time').innerText = localStorage.getItem('time')
+    }
+    
+    setInterval(function(){
+        let time = timer.innerText - 1;
+       
+        timer.innerText = time ;
+        
+        localStorage.setItem('time', time)
+        
+        if (timer.innerText <= 0) {
+            localStorage.removeItem('time')
+            
+            window.location.href = "{{ route('home') }}";
+        }
+    }, 1000)
+</script>
+@endpush
 @endsection

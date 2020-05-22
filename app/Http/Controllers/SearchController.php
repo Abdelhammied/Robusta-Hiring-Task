@@ -25,7 +25,9 @@ class SearchController extends Controller
             'to_station_id' => $to_station->id,
         ])->with([
             'seats' => function ($query) {
-                return $query->free();
+                return $query->free()->orWhere([
+                    'status' => 'reservation-in-progress',
+                ])->where('user_id', auth()->id());
             }
         ])->get();
 
