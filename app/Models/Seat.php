@@ -26,4 +26,9 @@ class Seat extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeFree($query)
+    {
+        return $query->where('status', 'free');
+    }
 }

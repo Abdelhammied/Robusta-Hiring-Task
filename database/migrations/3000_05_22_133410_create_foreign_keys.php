@@ -26,7 +26,8 @@ class CreateForeignKeys extends Migration
         Schema::table('seats', function (Blueprint $blueprint) {
             $blueprint->foreign('bus_id')->references('id')->on('buses');
             $blueprint->foreign('trip_id')->references('id')->on('trips');
-            $blueprint->foreign('drop_of_at')->references('id')->on('stations');
+            $blueprint->foreign('check_in_at')->references('id')->on('stations');
+            $blueprint->foreign('check_out_at')->references('id')->on('stations');
             $blueprint->foreign('user_id')->references('id')->on('users');
         });
     }
