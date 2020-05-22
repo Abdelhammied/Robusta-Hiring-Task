@@ -8,6 +8,12 @@
                 <div class="card-header">Search For Trip</div>
 
                 <div class="card-body">
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+
                     <form action="#" method="post" novalidate="novalidate" class="p-3">
                         <div class="row">
                             <div class="col-lg-12">
@@ -74,15 +80,16 @@
         let response = document.getElementById("response");
         let trip_seats_result = document.getElementById('trip-seats'); 
         let crossover_seats_result = document.getElementById('crossover-seats'); 
-        
-
+    
         error_1.textContent = from_station == 0 ? "From Station Value is Required" : '';
         error_2.textContent = to_station == 0 ? "To Station Value is Required" : '';
 
         if (from_station == 0 || to_station == 0) {
             return ;
         }
-
+        
+        trip_seats_result.innerHTML = "";
+        crossover_seats_result.innerHTML = "";
         submit_button.textContent = "Loading ...";
         submit_button.setAttribute('disabled', true);
         

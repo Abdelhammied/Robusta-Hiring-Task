@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Seat;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind('seat', function($seat){
+            return Seat::where('seat_uuid', $seat)->firstOrFail();
+        });
 
         parent::boot();
     }

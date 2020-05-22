@@ -16,7 +16,7 @@ class CreateSeatsTable extends Migration
         Schema::create('seats', function (Blueprint $table) {
             $table->id();
             $table->uuid('seat_uuid')->unique();
-            $table->uuid('reservation_id')->unique()->nullable();
+            $table->uuid('reservation_uuid')->unique()->nullable();
             
             $table->unsignedBigInteger('bus_id');
             $table->unsignedBigInteger('trip_id');
@@ -27,7 +27,9 @@ class CreateSeatsTable extends Migration
             $table->enum('status', ['free', 'reservation-in-progress', 'reserved'])->default('free');
             $table->enum('reserved_from', ['begin_of_the_trip', 'specific_station'])->default('begin_of_the_trip')->nullable();
             $table->enum('reserved_untill', ['last_of_the_trip', 'specific_station'])->default('last_of_the_trip')->nullable();
-
+            
+            $table->dateTime('locked_at')->nullable();
+            
             $table->timestamps();
         });
     }

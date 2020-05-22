@@ -20,13 +20,14 @@ $factory->define(Seat::class, function (Faker $faker) {
 
     return [
         'seat_uuid' => $faker->uuid,
-        'reservation_id' => $status == 'free' ? null : $faker->uuid,
+        'reservation_uuid' => $status == 'free' ? null : $faker->uuid,
         'bus_id' => $bus->id,
         'trip_id' => $trip->id,
         'user_id' => $status == 'free' ? null : $user->id,
         'check_in_at' =>  $status == 'free' ? null : ($reserved_from == 'specific_station' ? $station : $trip->from_station_id),
         'check_out_at' =>  $status == 'free' ? null : ($reserved_untill == 'specific_station' ? $station : $trip->to_station_id),
         'status' => $status,
+        'locked_at' => $status == 'reservation-in-progress' ? $faker->dateTime() : null,
         'reserved_from' => $reserved_from,
         'reserved_untill' => $reserved_untill,
     ];
