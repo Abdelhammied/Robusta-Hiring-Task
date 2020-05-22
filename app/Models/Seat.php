@@ -53,7 +53,7 @@ class Seat extends Model
         ]);
     }
 
-    public function setStatusToReservationInProgress(bool $all_the_trip = true, $check_in_at = null, $check_out_at = null)
+    public function setStatusToReservationInProgress(bool $all_the_trip = true, int $check_in_at = null, int $check_out_at = null)
     {
         return $this->update([
             'status' => 'reservation-in-progress',
@@ -67,17 +67,12 @@ class Seat extends Model
         ]);
     }
 
-    public function setStatusToReserved(bool $all_the_trip = true, $check_in_at = null, $check_out_at = null)
+    public function setStatusToReserved()
     {
         return $this->update([
             'status' => 'reserved',
             'user_id' => auth()->id(),
             'locked_at' => null,
-            'reservation_uuid' => Uuid::uuid1(),
-            'reserved_from' => $all_the_trip ? 'begin_of_the_trip' : 'specific_station',
-            'reserved_untill' => $all_the_trip ? 'last_of_the_trip' : 'specific_station',
-            'check_in_at' => $all_the_trip ? $this->trip->from_station_id : $check_in_at,
-            'check_out_at' => $all_the_trip ? $this->trip->to_station_id : $check_out_at,
         ]);
     }
 }

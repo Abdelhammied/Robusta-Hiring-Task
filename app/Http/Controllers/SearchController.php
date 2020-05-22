@@ -18,24 +18,33 @@ class SearchController extends Controller
         ]);
 
         $from_station = Station::where('slug', $request->from_station)->first();
+        
         $to_station = Station::where('slug', $request->to_station)->first();
 
-        $trips = Trip::where([
-            'from_station_id' => $from_station->id,
-            'to_station_id' => $to_station->id,
-        ])->with([
+        $seats_query = [
             'seats' => function ($query) {
                 return $query->free()->orWhere([
                     'status' => 'reservation-in-progress',
                 ])->where('user_id', auth()->id());
             }
-        ])->get();
+        ];
 
-        $corss_overs = CrossOver::where('station_id', $from_station->id)->orWhere('station_id', $to_station->id)->with('trip.seats')->get();
+        $trips = Trip::where([
+            'from_station_id' => $from_station->id,
+            'to_station_id' => $to_station->id,
+        ])->with($seats_query)->get();
+
+        $corss_over_trips = Trip::whereHas('crossovers', function ($q) use ($from_station, $to_station) {
+            $q->where([
+                'station_id' => $from_station->id,
+                'station_id' => $to_station->id,
+            ]);
+        })->with($seats_query)->get();
+
 
         return response()->json([
             'trips' => $trips,
-            'crossovers' => $corss_overs
+            'corss_over_trips' => $corss_over_trips
         ]);
     }
 }

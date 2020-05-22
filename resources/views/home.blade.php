@@ -104,11 +104,11 @@
                 submit_button.removeAttribute('disabled');
                 submit_button.textContent = "Search";
 
-                if (res.trips.length == 0 && res.crossovers.length == 0) {
+                if (res.trips.length == 0 && res.corss_over_trips.length == 0) {
                     response.textContent = "No Available Trips / Crossovers";
                 }
 
-                if (res.trips.length == 0 && res.crossovers.length > 0) {
+                if (res.trips.length == 0 && res.corss_over_trips.length > 0) {
                     response.textContent = 'No Direct Trips Are Available But there are Crossovers available.'
                 }
 
@@ -129,16 +129,16 @@
                     trip_seats_result.innerHTML = trip_seats_html;
                 }
 
-                if (res.crossovers.length > 0) {
+                if (res.corss_over_trips.length > 0) {
                     let crossovers_seats = [];
                     let crossover_html = "";
 
-                    res.crossovers.forEach(crossover => {
-                        crossovers_seats.push(...crossover.trip.seats)
+                    res.corss_over_trips.forEach(crossover => {
+                        crossovers_seats.push(...crossover.seats)
                     })
 
                     crossovers_seats.forEach(seat => {
-                        crossover_html += `<li> <a href="/crossover-seat/${seat.seat_uuid}?from=${from_station}&to=${to_station}"> Reserve Seat </a> </li>`;
+                        crossover_html += `<li> <a href="/trip-seat/${seat.seat_uuid}?from=${from_station}&to=${to_station}"> Reserve Seat </a> </li>`;
                     })
 
                     crossover_seats_result.innerHTML = crossover_html;                    
